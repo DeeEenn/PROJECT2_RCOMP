@@ -5,15 +5,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class FileServer {
     private static final int DEFAULT_PORT = 8080;
     private static final int MAX_SLOTS = 10;
+    private static final int THREAD_POOL_SIZE = 10;
+
     private final Map<Integer, FileSlot> slots;
     private final String username;
     private final String password;
     private final int port;
+    private final ExecutorService threadPool;
     private ServerSocket serverSocket;
     private boolean running;
 
@@ -22,6 +27,8 @@ public class FileServer {
         this.username = username;
         this.password = password;
         this.slots = new ConcurrentHashMap<>();
+        this.threadPool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+
         for (int i = 1; i <= MAX_SLOTS; i++) {
             slots.put(i, new FileSlot(i));
         }

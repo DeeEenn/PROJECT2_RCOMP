@@ -13,11 +13,18 @@ public class ClientHandler extends Thread {
     private final Socket clientSocket;
     private final FileServer server;
     private boolean authenticated;
+    private static final int TIMEOUT = 3000;
 
     public ClientHandler(Socket socket, FileServer server) {
         this.clientSocket = socket;
         this.server = server;
         this.authenticated = false;
+
+        try {
+            clientSocket.setSoTimeout(TIMEOUT);
+        } catch (IOException e) {
+            System.out.println("Client socket set timeout");
+        }
     }
 
     @Override
@@ -174,9 +181,9 @@ public class ClientHandler extends Thread {
             }
 
             slot.clear();
-            out.println(Protocol.OK + Protocol.DELIMITER + "File successfully deleted");
+            out.println(Protocol.OK + Protocol.DELIMITER + "Soubor úspěšně smazán");
         } catch (NumberFormatException e) {
-            out.println(Protocol.ERROR + Protocol.DELIMITER + "Invalid slot number");
+            out.println(Protocol.ERROR + Protocol.DELIMITER + "Neplatné číslo slotu");
         }
     }
 } 

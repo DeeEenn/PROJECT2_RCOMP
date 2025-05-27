@@ -5,6 +5,7 @@ public class FileSlot {
     private String fileName;
     private byte[] fileContent;
     private boolean isEmpty;
+    private static final int MAX_SIZE = 100 * 1024 * 1024; // Maximum size of 100 MB.
 
     public FileSlot(int slotNumber) {
         this.slotNumber = slotNumber;
@@ -16,6 +17,9 @@ public class FileSlot {
     }
 
     public void storeFile(String fileName, byte[] content) {
+        if (content.length > MAX_SIZE) {
+            throw new IllegalArgumentException("File content is too large to be stored maximum is: " + MAX_SIZE);
+        }
         this.fileName = fileName;
         this.fileContent = content;
         this.isEmpty = false;
