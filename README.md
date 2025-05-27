@@ -1,6 +1,8 @@
 # RCOMP - Project 2 - File Sharing System 
 ## Team members
-*1242300* David Nic
+- **(1242374)** - YOUJEONG LEE
+- **(1232162)** - YASAMIN EBRAHIMI
+- **(1242300)** - DAVID NIC
 
 ## Table of Contents
 - [Project Overview](#project-overview)
