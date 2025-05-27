@@ -53,6 +53,20 @@ public class FileServer {
         return this.username.equals(username) && this.password.equals(password);
     }
 
+    private boolean moveFile(int fromSlot, int toSlot){
+        FileSlot sourceSlot = slots.get(fromSlot);
+        FileSlot targetSlot = slots.get(toSlot);
+
+        if(sourceSlot == null || targetSlot == null) return false;
+
+        if(sourceSlot.isEmpty() || !targetSlot.isEmpty()) return false;
+
+        synchronized (slots) {
+            targetSlot.storeFile(sourceSlot.getFileName(), sourceSlot.getFileContent());
+        }
+        return true;
+    }
+
     public Map<Integer, FileSlot> getSlots() {
         return slots;
     }

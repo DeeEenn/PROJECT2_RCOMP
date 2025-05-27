@@ -25,6 +25,15 @@ public class FileSlot {
         this.isEmpty = false;
     }
 
+    public boolean renameFile(String newName) {
+        if (isEmpty || newName == null || newName.trim().isEmpty()) {
+            return false;
+        }
+
+        this.fileName = newName;
+        return true;
+    }
+
     public String getFileName() {
         return fileName;
     }
