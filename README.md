@@ -1,4 +1,6 @@
-# File Sharing System Documentation
+# RCOMP - Project 2 - File Sharing System 
+## Team members
+*1242300* David Nic
 
 ## Table of Contents
 - [Project Overview](#project-overview)
