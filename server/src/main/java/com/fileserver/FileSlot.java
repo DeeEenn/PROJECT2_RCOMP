@@ -1,6 +1,6 @@
-public class FileSlot {
-    // This class represents a file slot in the file server.
+package com.fileserver;
 
+public class FileSlot {
     private final int slotNumber;
     private String fileName;
     private byte[] fileContent;
@@ -15,10 +15,18 @@ public class FileSlot {
         return isEmpty;
     }
 
-    public void storeFile(String fileName, byte[] fileContent) {
+    public void storeFile(String fileName, byte[] content) {
         this.fileName = fileName;
-        this.fileContent = fileContent;
+        this.fileContent = content;
         this.isEmpty = false;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public byte[] getFileContent() {
+        return fileContent;
     }
 
     public void clear() {
@@ -27,7 +35,7 @@ public class FileSlot {
         this.isEmpty = true;
     }
 
-    public String getFileName() { return fileName; }
-    public byte[] getFileContent() { return fileContent; }
-    public int getSlotNumber() { return slotNumber; }
-}
+    public int getSlotNumber() {
+        return slotNumber;
+    }
+} 
