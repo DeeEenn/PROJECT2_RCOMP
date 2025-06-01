@@ -56,6 +56,6 @@ Then, a menu will allow you to perform the available commands.
 
 ---
 
-## 👤 Author
+## Author
 
 - 1242374 (YouJeong Lee) – C Client Developer, Sprint 3
