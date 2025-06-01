@@ -5,14 +5,14 @@ It connects to the Java-based File Server using TCP sockets and supports multipl
 
 ---
 
-## 📋 Requirements
+##  Requirements
 
 - GCC compiler (Linux/Mac or MinGW/Git Bash for Windows)
 - File Server (Java) must be running on `127.0.0.1:8080`
 
 ---
 
-## ⚙️ How to Compile
+##  How to Compile
 
 ```bash
 cd client/src
@@ -21,7 +21,7 @@ gcc Client.c -o client
 
 ---
 
-## ▶️ How to Run
+##  How to Run
 
 ```bash
 ./client
@@ -36,7 +36,7 @@ Then, a menu will allow you to perform the available commands.
 
 ---
 
-## 🧾 Features
+## Features
 
 | Option | Command | Description |
 |--------|---------|-------------|
@@ -48,7 +48,7 @@ Then, a menu will allow you to perform the available commands.
 
 ---
 
-## 💡 Notes
+##  Notes
 
 - For UPLOAD, make sure the file exists in the same directory as the executable.
 - File content is read into memory, so files should be reasonably small (<4KB).
