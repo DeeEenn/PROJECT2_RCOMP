@@ -181,9 +181,9 @@ public class ClientHandler extends Thread {
             }
 
             slot.clear();
-            out.println(Protocol.OK + Protocol.DELIMITER + "Soubor úspěšně smazán");
+            out.println(Protocol.OK + Protocol.DELIMITER + "File successfully deleted");
         } catch (NumberFormatException e) {
-            out.println(Protocol.ERROR + Protocol.DELIMITER + "Neplatné číslo slotu");
+            out.println(Protocol.ERROR + Protocol.DELIMITER + "Invalid slot number");
         }
     }
 } 
