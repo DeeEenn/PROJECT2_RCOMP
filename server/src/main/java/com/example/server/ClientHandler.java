@@ -103,11 +103,16 @@ public class ClientHandler implements Runnable {
 
     private void handleList() {
         StringBuilder response = new StringBuilder("OK|");
+        boolean hasFiles = false;
         for (int i = 0; i < MAX_SLOTS; i++) {
             FileSlot slot = slots.get(i);
             if (slot != null && slot.isOccupied()) {
                 response.append(i).append(":").append(slot.getFilename()).append(";");
+                hasFiles = true;
             }
+        }
+        if (!hasFiles) {
+            response.append("No files");
         }
         out.println(response.toString());
     }

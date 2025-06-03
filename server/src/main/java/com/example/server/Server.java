@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class Server {
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
     private static final int MAX_CLIENTS = 10;
-    private static final int SOCKET_TIMEOUT = 30000; // 30 seconds
+    private static final int SOCKET_TIMEOUT = 300000; // 5 minutes
     
     private final int port;
     private final int maxSlots;
