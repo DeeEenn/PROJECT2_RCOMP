@@ -38,14 +38,14 @@ public class FileServer {
         try {
             serverSocket = new ServerSocket(port);
             running = true;
-            System.out.println("Server běží na portu: " + port);
+            System.out.println("Server is running on port: " + port);
 
             while (running) {
                 Socket clientSocket = serverSocket.accept();
                 new ClientHandler(clientSocket, this).start();
             }
         } catch (IOException e) {
-            System.err.println("Chyba při spuštění serveru: " + e.getMessage());
+            System.err.println("Error starting server: " + e.getMessage());
         }
     }
 
