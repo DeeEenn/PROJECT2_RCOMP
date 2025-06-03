@@ -1,4 +1,3 @@
-/Users/davidnic/Documents/Skola/PROJECT2_RCOMP/server/src/main/java/com/fileserver/FileServer.java
-/Users/davidnic/Documents/Skola/PROJECT2_RCOMP/server/src/main/java/com/fileserver/ClientHandler.java
-/Users/davidnic/Documents/Skola/PROJECT2_RCOMP/server/src/main/java/com/fileserver/FileSlot.java
-/Users/davidnic/Documents/Skola/PROJECT2_RCOMP/server/src/main/java/com/fileserver/protocol/Protocol.java
+/Users/davidnic/Documents/Skola/PROJECT2_RCOMP/server/src/main/java/com/example/server/ClientHandler.java
+/Users/davidnic/Documents/Skola/PROJECT2_RCOMP/server/src/main/java/com/example/server/FileSlot.java
+/Users/davidnic/Documents/Skola/PROJECT2_RCOMP/server/src/main/java/com/example/server/Server.java

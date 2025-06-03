@@ -18,7 +18,7 @@ public class Server {
     private static final int SOCKET_TIMEOUT = 30000; // 30 seconds
     
     private final int port;
-    private final int maxSlots; 
+    private final int maxSlots;
     private final String username;
     private final String password;
     private final int maxFileSize;
@@ -32,7 +32,13 @@ public class Server {
         this.maxSlots = Integer.parseInt(config.getProperty("server.max_slots", "10"));
         this.username = config.getProperty("auth.username", "admin");
         this.password = config.getProperty("auth.password", "admin");
-        this.maxFileSize = Integer.parseInt(config.getProperty("file.max_size", "1048576"));
+        
+        // Parse max file size and remove any comments
+        String maxFileSizeStr = config.getProperty("file.max_size", "1048576");
+        if (maxFileSizeStr.contains("#")) {
+            maxFileSizeStr = maxFileSizeStr.substring(0, maxFileSizeStr.indexOf("#")).trim();
+        }
+        this.maxFileSize = Integer.parseInt(maxFileSizeStr);
         
         this.threadPool = Executors.newFixedThreadPool(MAX_CLIENTS);
         

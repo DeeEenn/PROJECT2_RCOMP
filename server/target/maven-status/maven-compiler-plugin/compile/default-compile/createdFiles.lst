@@ -1,4 +1,3 @@
-com/fileserver/ClientHandler.class
-com/fileserver/FileSlot.class
-com/fileserver/FileServer.class
-com/fileserver/protocol/Protocol.class
+com/example/server/ClientHandler.class
+com/example/server/Server.class
+com/example/server/FileSlot.class
