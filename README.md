@@ -159,7 +159,7 @@ The server can be configured through the following parameters:
 | Port | Server port number | 8080 |
 | Max Slots | Maximum number of file slots | 10 |
 | Username | Authentication username | admin |
-| Password | Authentication password | password |
+| Password | Authentication password | admin |
 
 ## Usage
 
