@@ -129,17 +129,9 @@ server/
 │       └── java/
 │           └── com/
 │               └── fileserver/
-│                   ├── FileServer.java
+│                   ├── Server.java
 │                   ├── ClientHandler.java
 │                   ├── FileSlot.java
-│                   ├── SSLServer.java
-│                   ├── CompressionUtil.java
-│                   ├── Logger.java
-│                   ├── ProgressTracker.java
-│                   ├── ServerStats.java
-│                   ├── TransferManager.java
-│                   └── protocol/
-│                       └── Protocol.java
 └── pom.xml
 ```
 
