@@ -15,11 +15,43 @@ public class ClientApp {
     static BufferedReader reader;
     static final String CLIENT_DIR;
 
+//    static {
+//        String projectDir = System.getProperty("user.dir");
+//        CLIENT_DIR = Paths.get(projectDir, "..", "..", "java_client_files").toAbsolutePath().toString();
+//        System.out.println("Project directory: " + projectDir);
+//        System.out.println("Client directory: " + CLIENT_DIR);
+//    }
+// For debugging purposes, you can uncomment the following static block to determine the project root dynamically
     static {
-        String projectDir = System.getProperty("user.dir");
-        CLIENT_DIR = Paths.get(projectDir, "..", "..", "java_client_files").toAbsolutePath().toString();
-        System.out.println("Project directory: " + projectDir);
+
+        Path currentPath = Paths.get(System.getProperty("user.dir"));
+        Path projectRoot = null;
+
+        Path tempPath = currentPath;
+        while (tempPath != null && !tempPath.getFileName().toString().equals("PROJECT2_RCOMP")) {
+            tempPath = tempPath.getParent();
+        }
+
+        if (tempPath != null) {
+            projectRoot = tempPath;
+        } else {
+            System.err.println("Error: Could not determine project root 'PROJECT2_RCOMP'. Using current directory as fallback.");
+            projectRoot = currentPath; // Fallback
+        }
+
+        CLIENT_DIR = projectRoot.resolve("java_client_files").toAbsolutePath().toString();
+
+        System.out.println("Current working directory (user.dir): " + currentPath);
+        System.out.println("Determined Project Root: " + projectRoot);
         System.out.println("Client directory: " + CLIENT_DIR);
+
+        try {
+            Files.createDirectories(Paths.get(CLIENT_DIR));
+            System.out.println("Using directory: " + CLIENT_DIR);
+        } catch (IOException e) {
+            System.err.println("Failed to create client directory: " + CLIENT_DIR + " - " + e.getMessage());
+            System.exit(1); // Exit if directory creation fails, as it's critical
+        }
     }
 
     public static void main(String[] args) {
