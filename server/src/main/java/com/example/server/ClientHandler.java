@@ -28,7 +28,7 @@ public class ClientHandler implements Runnable {
         this.clientSocket = socket;
         // Initialize slots only if not already initialized
         for (int i = 0; i < MAX_SLOTS; i++) {
-            slots.putIfAbsent(i, new FileSlot());
+            slots.putIfAbsent(i, new FileSlot(i));
         }
     }
 

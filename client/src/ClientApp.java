@@ -1,15 +1,34 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class ClientApp {
     static Scanner scanner = new Scanner(System.in);
     static PrintWriter writer;
     static BufferedReader reader;
+    static final String CLIENT_DIR;
+
+    static {
+        // Získáme absolutní cestu k adresáři projektu
+        String projectDir = System.getProperty("user.dir");
+        CLIENT_DIR = projectDir + File.separator + "java_client_files";
+        System.out.println("Project directory: " + projectDir);
+        System.out.println("Client directory: " + CLIENT_DIR);
+    }
 
     public static void main(String[] args) {
         try {
+            // Create client directory if it doesn't exist
+            Files.createDirectories(Paths.get(CLIENT_DIR));
+            System.out.println("Using directory: " + CLIENT_DIR);
+            
             Socket socket = new Socket("localhost", 8080);
             writer = new PrintWriter(socket.getOutputStream(), true);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -58,11 +77,18 @@ public class ClientApp {
         String slot = scanner.nextLine();
         System.out.print("File name: ");
         String name = scanner.nextLine();
-        File file = new File(name);
-        if (!file.exists() || file.length() == 0) {
-            System.out.println("File missing or empty.");
+        File file = new File(CLIENT_DIR, name);
+        System.out.println("Trying to open file: " + file.getAbsolutePath());
+        
+        if (!file.exists()) {
+            System.out.println("File does not exist: " + file.getAbsolutePath());
             return;
         }
+        if (file.length() == 0) {
+            System.out.println("File is empty: " + file.getAbsolutePath());
+            return;
+        }
+        
         String content = Files.readString(file.toPath());
         writer.println("UPLOAD|" + slot + "|" + file.getName() + "|" + content);
         System.out.println(reader.readLine());
@@ -78,8 +104,10 @@ public class ClientApp {
             return;
         }
         String[] parts = res.split("\\|", 3);
-        Files.write(Path.of(parts[1]), parts[2].getBytes());
-        System.out.println("Saved as " + parts[1]);
+        Path filePath = Paths.get(CLIENT_DIR, parts[1]);
+        System.out.println("Saving file to: " + filePath.toAbsolutePath());
+        Files.write(filePath, parts[2].getBytes());
+        System.out.println("File saved successfully in " + CLIENT_DIR);
     }
 
     static void deleteFile() throws IOException {

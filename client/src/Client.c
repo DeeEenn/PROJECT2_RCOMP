@@ -3,16 +3,21 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <sys/stat.h>
 
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 8080
 #define BUFFER_SIZE 4096
+#define CLIENT_DIR "../../c_client_files"
 
 void uploadFile(int sockfd);
 void downloadFile(int sockfd);
 void deleteFile(int sockfd);
 
 int main() {
+    // Create client directory if it doesn't exist
+    mkdir(CLIENT_DIR, 0777);
+    
     int sockfd;
     struct sockaddr_in server_addr;
     char send_buf[BUFFER_SIZE];
@@ -128,7 +133,8 @@ void uploadFile(int sockfd) {
     fgets(filename, sizeof(filename), stdin);
     filename[strcspn(filename, "\n")] = 0;
 
-    snprintf(filepath, sizeof(filepath), "%s", filename);
+    snprintf(filepath, sizeof(filepath), "%s/%s", CLIENT_DIR, filename);
+    printf("Trying to open file: %s\n", filepath);
 
     FILE *fp = fopen(filepath, "r");
     if (fp == NULL) {
@@ -184,7 +190,11 @@ void downloadFile(int sockfd) {
             return;
         }
 
-        FILE *fp = fopen(filename, "w");
+        char filepath[512];
+        snprintf(filepath, sizeof(filepath), "%s/%s", CLIENT_DIR, filename);
+        printf("Saving file to: %s\n", filepath);
+        
+        FILE *fp = fopen(filepath, "w");
         if (fp == NULL) {
             perror("Failed to create file");
             return;
@@ -192,7 +202,7 @@ void downloadFile(int sockfd) {
 
         fwrite(filecontent, 1, strlen(filecontent), fp);
         fclose(fp);
-        printf("File '%s' saved successfully.\n", filename);
+        printf("File '%s' saved successfully in %s\n", filename, CLIENT_DIR);
     } else {
         printf("Download failed: %s\n", recv_buf);
     }
