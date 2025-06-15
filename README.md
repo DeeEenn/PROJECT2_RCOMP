@@ -6,239 +6,113 @@
 
 ## Table of Contents
 - [Project Overview](#project-overview)
-- [Server Architecture](#server-architecture)
-  - [Core Components](#core-components)
-  - [Protocol Implementation](#protocol-implementation)
-  - [Security Features](#security-features)
-  - [Utility Classes](#utility-classes)
 - [Project Structure](#project-structure)
-- [Dependencies](#dependencies)
+- [Server Implementation](#server-implementation)
+- [Client Implementation](#client-implementation)
+- [Protocol Specification](#protocol-specification)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [Error Handling](#error-handling)
-- [Security Considerations](#security-considerations)
-- [Performance](#performance)
-- [Future Improvements](#future-improvements)
 
 ## Project Overview
 
-A secure file sharing system with a Java-based server and client implementation. The system supports file operations, compression, and secure communication.
-
-## Server Architecture
-
-### Core Components
-
-#### FileServer.java
-Main server class that handles:
-- Server initialization and startup
-- Client connection management
-- Authentication
-- File slot management
-
-Key features:
-- Configurable port (default: 8080)
-- User authentication system
-- Concurrent file slot management (max 10 slots)
-- Multi-threaded client handling
-
-#### ClientHandler.java
-Handles individual client connections:
-- Client request processing
-- File operations execution
-- Response management
-- Thread-safe operations
-
-#### FileSlot.java
-Manages individual file slots:
-- File metadata storage
-- File state tracking
-- Slot availability management
-
-### Protocol Implementation
-
-#### Protocol.java
-Defines communication protocol constants:
-
-**Request Commands:**
-| Command | Description |
-|---------|-------------|
-| `AUTH` | Authentication request |
-| `LIST` | List files |
-| `UPLOAD` | Upload file |
-| `DOWNLOAD` | Download file |
-| `DELETE` | Delete file |
-| `MOVE` | Move file |
-| `RENAME` | Rename file |
-| `STATS` | Get server statistics |
-| `COMPRESS` | Compress file |
-
-**Response Commands:**
-| Command | Description |
-|---------|-------------|
-| `OK` | Operation successful |
-| `ERROR` | Operation failed |
-| `AUTH_OK` | Authentication successful |
-| `AUTH_FAIL` | Authentication failed |
-
-### Security Features
-
-#### SSLServer.java
-Implements secure communication:
-- SSL/TLS encryption
-- Certificate management
-- Secure socket handling
-
-### Utility Classes
-
-#### CompressionUtil.java
-Handles file compression:
-- File compression algorithms
-- Compression ratio management
-- Decompression utilities
-
-#### Logger.java
-Logging system:
-- Operation logging
-- Error tracking
-- Debug information
-
-#### ProgressTracker.java
-Tracks file transfer progress:
-- Upload progress monitoring
-- Download progress monitoring
-- Transfer statistics
-
-#### ServerStats.java
-Server statistics management:
-- Performance metrics
-- Resource usage tracking
-- Operation statistics
-
-#### TransferManager.java
-Manages file transfers:
-- Transfer queue management
-- Bandwidth control
-- Transfer prioritization
+A file sharing system with server and client implementations in Java and C. The system supports basic file operations and secure communication.
 
 ## Project Structure
 
 ```
-server/
-├── src/
-│   └── main/
-│       └── java/
-│           └── com/
-│               └── fileserver/
-│                   ├── Server.java
-│                   ├── ClientHandler.java
-│                   ├── FileSlot.java
-└── pom.xml
+PROJECT2_RCOMP/
+├── server/                 # Java server implementation
+│   └── src/
+│       └── main/
+├── client/                 # Client implementations
+│   └── src/
+│       ├── ClientApp.java  # Java client
+│       └── Client.c        # C client
+├── java_client_files/      # Directory for Java client files
+├── c_client_files/         # Directory for C client files
+├── server_storage/         # Server storage directory
+└── test_server.py         # Server testing script
 ```
 
-## Dependencies
+## Server Implementation
 
-The project uses Maven for dependency management. Key dependencies include:
-- Java 11 or higher
-- SSL/TLS libraries for secure communication
-- Compression libraries for file operations
+The server is implemented in Java and provides the following features:
+- File slot management (max 10 slots)
+- User authentication
+- File operations (upload, download, delete)
+- Slot content listing
+
+## Client Implementation
+
+### Java Client (ClientApp.java)
+- Implements all required operations
+- Uses TCP socket for communication
+- Manages files in java_client_files directory
+
+### C Client (Client.c)
+- Implements all required operations
+- Uses TCP socket for communication
+- Manages files in c_client_files directory
+
+## Protocol Specification
+
+### Request Commands
+| Command | Format | Description |
+|---------|--------|-------------|
+| `AUTH` | `AUTH|username|password` | User authentication |
+| `LIST` | `LIST` | List occupied slots |
+| `UPLOAD` | `UPLOAD|slot|filename|content` | Upload file |
+| `DOWNLOAD` | `DOWNLOAD|slot` | Download file |
+| `DELETE` | `DELETE|slot` | Delete file |
+
+### Response Commands
+| Command | Description |
+|---------|-------------|
+| `AUTH_OK` | Successful authentication |
+| `AUTH_FAIL` | Failed authentication |
+| `OK|filename|content` | Successful file operation |
+| `ERROR` | Operation error |
 
 ## Configuration
 
-The server can be configured through the following parameters:
+### Server Configuration
+- Port: 8080 (default)
+- Maximum number of slots: 10
+- Username and password are configurable at startup
 
-| Parameter | Description | Default Value |
-|-----------|-------------|---------------|
-| Port | Server port number | 8080 |
-| Max Slots | Maximum number of file slots | 10 |
-| Username | Authentication username | admin |
-| Password | Authentication password | admin |
+### Client Configuration
+- Server address: localhost
+- Port: 8080
+- File directories are automatically created
 
 ## Usage
 
 ### Starting the Server
-```java
-FileServer server = new FileServer(port, username, password);
-server.start();
+```bash
+cd server
+javac src/main/java/*.java
+java -cp src/main/java Server [port] [username] [password]
 ```
 
-### Client Authentication
-```
-AUTH|username|password
-```
-
-### File Operations
-
-#### 1. List Files
-```
-LIST
+### Starting Java Client
+```bash
+cd client
+javac src/ClientApp.java
+java -cp src ClientApp
 ```
 
-#### 2. Upload File
-```
-UPLOAD|filename|filesize|data
-```
-
-#### 3. Download File
-```
-DOWNLOAD|filename
+### Starting C Client
+```bash
+cd client
+gcc src/Client.c -o client
+./client
 ```
 
-#### 4. Delete File
-```
-DELETE|filename
-```
-
-#### 5. Move File
-```
-MOVE|source|destination
-```
-
-#### 6. Rename File
-```
-RENAME|oldname|newname
-```
-
-#### 7. Get Statistics
-```
-STATS
-```
-
-#### 8. Compress File
-```
-COMPRESS|filename
-```
-
-## Error Handling
-
-The system implements comprehensive error handling:
-- Authentication failures
-- File operation errors
-- Network communication issues
-- Resource limitations
-- Invalid requests
-
-## Security Considerations
-
-- All communications are encrypted using SSL/TLS
-- User authentication is required for all operations
-- File operations are validated and sanitized
-- Resource usage is monitored and limited
-- Concurrent operations are thread-safe
-
-## Performance
-
-The system is designed for optimal performance:
-- Concurrent file operations
-- Efficient file transfer management
-- Resource usage optimization
-- Compression for bandwidth efficiency
-- Caching mechanisms
-
-## Future Improvements
-
-Potential areas for enhancement:
-- Additional compression algorithms
-- Enhanced security features
-- Improved error recovery
-- Extended protocol capabilities
-- Performance optimizations
+### Client Operations
+1. Login using username and password
+2. Select operation from menu:
+   - LIST - list files
+   - UPLOAD - upload file
+   - DOWNLOAD - download file
+   - DELETE - delete file
+   - EXIT - exit
