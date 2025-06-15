@@ -1,1 +1,1 @@
-C client test file
+java client test file. :)

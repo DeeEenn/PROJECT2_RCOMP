@@ -16,9 +16,8 @@ public class ClientApp {
     static final String CLIENT_DIR;
 
     static {
-        // Získáme absolutní cestu k adresáři projektu
         String projectDir = System.getProperty("user.dir");
-        CLIENT_DIR = projectDir + File.separator + "java_client_files";
+        CLIENT_DIR = Paths.get(projectDir, "..", "..", "java_client_files").toAbsolutePath().toString();
         System.out.println("Project directory: " + projectDir);
         System.out.println("Client directory: " + CLIENT_DIR);
     }
@@ -77,9 +76,9 @@ public class ClientApp {
         String slot = scanner.nextLine();
         System.out.print("File name: ");
         String name = scanner.nextLine();
-        File file = new File(CLIENT_DIR, name);
+        File file = new File(CLIENT_DIR, name); // Ensure it uses the correct folder
         System.out.println("Trying to open file: " + file.getAbsolutePath());
-        
+
         if (!file.exists()) {
             System.out.println("File does not exist: " + file.getAbsolutePath());
             return;
@@ -88,7 +87,7 @@ public class ClientApp {
             System.out.println("File is empty: " + file.getAbsolutePath());
             return;
         }
-        
+
         String content = Files.readString(file.toPath());
         writer.println("UPLOAD|" + slot + "|" + file.getName() + "|" + content);
         System.out.println(reader.readLine());
@@ -104,7 +103,7 @@ public class ClientApp {
             return;
         }
         String[] parts = res.split("\\|", 3);
-        Path filePath = Paths.get(CLIENT_DIR, parts[1]);
+        Path filePath = Paths.get(CLIENT_DIR, parts[1]); // Save to the correct folder
         System.out.println("Saving file to: " + filePath.toAbsolutePath());
         Files.write(filePath, parts[2].getBytes());
         System.out.println("File saved successfully in " + CLIENT_DIR);
